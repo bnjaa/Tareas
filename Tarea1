@@ -1,21 +1,38 @@
 #include <iostream>
 using namespace std;
 
-int esperanza_H = 80; \\ esperanza de vida de un hombre
-int esperanza_M = 85; \\ esperanza de vida de una mujer
+int esperanza_H = 80;
+int esperanza_M = 85;
 
-int contar_meses(int fecha_i, int edad) \\ para contar cuantos meses de trabajo le quedan a la persona
-{ 
-	int c = (12 - fecha_i + 1) + (65 - edad);
+int contar_meses(int fecha_i, int edad, char sexo) 
+{
+	int c = 0;
+	if (sexo == 'H')
+	{
+		int c = (12 - fecha_i + 1) + (65 - edad)*12;	
+	}
+	else
+	{
+		int c = (12 - fecha_i + 1) + (60 - edad)*12;
+	}
 	return c;
 }
-int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, int cotizacion, int voluntario) \\ Calcula jubilacion
-{ 
-	
-	return J;
+int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, int cotizacion, int voluntario) 
+{
+	int fondos_f = fondos + (sueldo * (cotizacion/100)) * contar_meses(mes_actual, edad, sexo);
+	int dividendo = 0;
+	if (sexo == 'H')
+	{
+		dividendo = 15*12;
+	}
+	else
+	{
+		dividendo = 20*12;
+	}
+	return fondos_f/dividendo;
 }
 int main () 
 {
-	cout << contar_meses(3, 22) << endl;
+	cout << Jubilar('H', 3, 22, 1000000, 200000, 10, 0) << endl;
 	return 0;
 }
