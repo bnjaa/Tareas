@@ -16,4 +16,3 @@ int main () {
 	cout << contar_meses(3, 22) << endl;
 	return 0;
 }
-\\ hola
