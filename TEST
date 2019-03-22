@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+int esperanza_H = 80;
+int esperanza_M = 85;
+
+int contar_meses(int fecha_i, int edad, char sexo) 
+{
+	int c = 0;
+	if (sexo == 'H')
+	{
+		int c = (12 - fecha_i + 1) + (65 - edad)*12;
+		cout << "ESTO VALE C : " << c << endl;	
+	}
+	else
+	{
+		int c = (12 - fecha_i + 1) + (60 - edad)*12;
+	}
+	return c;
+}
+int Jubilar(char sexo, double mes_actual, double edad, double fondos, double sueldo, double cotizacion, int voluntario) 
+{
+	double meses = contar_meses(mes_actual, edad, sexo);
+	double fondos_f = fondos + (sueldo*cotizacion)*meses;
+	cout << "SUEDLO*COTIZACION : " << sueldo*cotizacion << '\n' << "TOTAL MESES TRABAJADOS : " << (sueldo*cotizacion)*meses << endl;
+	cout << "ESTO VALE FONDOS_F : " << fondos_f << endl;
+	int dividendo = 0;
+	if (sexo == 'H')
+	{
+		dividendo = 15*12;
+		cout << "DIVIENDO : " << 15*12 << endl;
+	}
+	else
+	{
+		dividendo = 20*12;
+		cout << "DIVIENDO : " << 20*12 << endl;
+	}
+	cout << "SUELDO MES A MES : " << fondos_f/dividendo << endl;
+	return fondos_f/dividendo;
+}
+int main () 
+{
+	cout << Jubilar('H', 3, 22, 1000000, 200000, 0.1, 0) << endl;
+	return 0;
+}
