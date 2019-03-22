@@ -1,9 +1,6 @@
 #include <iostream>
 using namespace std;
 
-int esperanza_H = 80;
-int esperanza_M = 85;
-
 int contar_meses(int fecha_i, int edad, char sexo) 
 {
 	int c = 0;
