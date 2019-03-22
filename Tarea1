@@ -19,7 +19,7 @@ int contar_meses(int fecha_i, int edad, char sexo)
 }
 int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int voluntario) 
 {
-	int fondos_f = fondos + (sueldo * (cotizacion/100)) * contar_meses(mes_actual, edad, sexo);
+	int fondos_f = fondos + (sueldo * ((cotizacion+voluntario)/100)) * contar_meses(mes_actual, edad, sexo);
 	int dividendo = 0;
 	if (sexo == 'H')
 	{
