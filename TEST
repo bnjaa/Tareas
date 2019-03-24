@@ -38,6 +38,20 @@ int Jubilar(char sexo, double mes_actual, double edad, double fondos, double sue
 	cout << "SUELDO MES A MES : " << fondos_f/dividendo << endl;
 	return fondos_f/dividendo;
 }
+int voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
+{
+	int porcentaje = 0;
+	int fondos_f = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, 0);
+	if (fondos_f > monto) // significa que se puede alcanzar la jubilacion deseada con los datos ingresados
+	{
+		return porcentaje;
+	}
+	else
+	{
+		porcentaje = ((monto-fondos)/(contar_meses(mes_actual, edad, sexo)*sueldo))*100-cotizacion;
+	}
+	return porcentaje; // retorna el porcentaje adicional que hay que agregar para obtener jubilacion adicional
+}
 int main () 
 {
 	cout << Jubilar('H', 3, 22, 1000000, 200000, 0.1, 0) << endl;
