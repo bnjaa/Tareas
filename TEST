@@ -40,17 +40,43 @@ int Jubilar(char sexo, double mes_actual, double edad, double fondos, double sue
 }
 int voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
 {
-	int porcentaje = 0;
-	int fondos_f = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, 0);
-	if (fondos_f > monto) // significa que se puede alcanzar la jubilacion deseada con los datos ingresados
+	double inicio = 0;
+	double fin = 100;
+	double medio = 50;
+	bool buscar = true;
+	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
+	if (aux > monto) 
 	{
-		return porcentaje;
+		cout << "No es necesario agregar un APV" << endl;
 	}
-	else
+	while (buscar) // busqueda binaria
 	{
-		porcentaje = ((monto-fondos)/(contar_meses(mes_actual, edad, sexo)*sueldo))*100-cotizacion;
+		if (aux == monto)
+		{
+			return medio;
+		}
+		else if (aux < monto)
+		{
+			inicio = medio;
+			medio = (fin-inicio)/2;
+			aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
+			if (abs(aux - monto) <= 500)
+			{
+				cout << "Se encontro, es: " << medio << endl;
+			}
+		}
+		else
+		{
+			fin = medio;
+			medio = (fin-inicio)/2;
+			aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
+			if (abs(aux - monto) <= 500)
+			{
+				cout << "Se encontro, es: " << medio << endl;
+			}
+		}
 	}
-	return porcentaje; // retorna el porcentaje adicional que hay que agregar para obtener jubilacion adicional
+	return medio;
 }
 int main () 
 {
