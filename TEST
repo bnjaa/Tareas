@@ -21,86 +21,36 @@ int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, float c
 	int dividendo = 0;
 	if (sexo == 'H')
 	{
-		dividendo = 15*12;
+		dividendo = 180;
 	}
 	else
 	{
-		dividendo = 20*12;
+		dividendo = 240;
 	}
 	return fondos_f/dividendo;
 }
-int voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
-{
-	double inicio = 0;
-	double fin = 100;
-	double medio = 0;
-	bool buscar = true;
-	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio); // 292222
-	cout << aux << endl;
-	if (aux > monto) // 292222 > 620000
-	{
-		cout << "No es necesario agregar un APV" << endl;
-		return medio;
-	}
-	while (buscar) // busqueda binaria
-	{
-		if (medio == 100)
-		{
-			cout << "No se puede" << endl;
-			return medio;
-		}
-		if (aux == monto)
-		{
-			return medio;
-		}
-		else if (aux < monto)
-		{
-			inicio = medio;
-			medio = (fin-inicio)/2;
-			aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
-			if (abs(aux - monto) <= 500)
-			{
-				cout << "Se encontro, es: " << medio << endl;
-				return medio;
-			}
-		}
-		else
-		{
-			fin = medio;
-			medio = (fin-inicio)/2;
-			aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
-			if (abs(aux - monto) <= 500)
-			{
-				cout << "Se encontro, es: " << medio << endl;
-				return medio;
-			}
-		}
-	}
-	return medio;
-}
-double voluntario2(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
+double voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
 {
 	double medio = 0;
 	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
-	cout << aux << endl;
-	while (monto-aux >= 0)
+	while (monto-aux >= 1)
 	{
 		if (medio > 100)
 		{
-			cout << "No se puede" << endl;
+			cout << "No se puede alcanzar el monto solicitado." << endl;
 			return 0;
 		}
 		medio = medio + 0.00001;
 		aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
 	}
-	
+	cout << "Usted debe agregar como APV: " << medio << "%." << endl;
 	return medio;
 }
 int main () 
 {
-	cout << Jubilar('H', 3, 22, 0, 1000000, 10, 3.68825) << endl;
+	cout << Jubilar('H', 3, 22, 0, 1000000, 10, 0) << endl;
 	cout << "-----------------------------------------------------" << endl;
-	cout << voluntario2('H', 3, 22, 0, 1000000, 10, 700000) << endl;
+	voluntario('H', 3, 22, 0, 1000000, 10, 700000);
 	cout << "Adios" << endl;
 	return 0;
 }
