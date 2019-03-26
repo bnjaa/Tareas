@@ -1,56 +1,54 @@
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
-
-int esperanza_H = 80;
-int esperanza_M = 85;
 
 int contar_meses(int fecha_i, int edad, char sexo) 
 {
 	int c = 0;
 	if (sexo == 'H')
 	{
-		int c = (12 - fecha_i + 1) + (65 - edad)*12;
-		cout << "ESTO VALE C : " << c << endl;	
+		c = (12 - fecha_i + 1) + (65 - edad)*12;	
 	}
 	else
 	{
-		int c = (12 - fecha_i + 1) + (60 - edad)*12;
+		c = (12 - fecha_i + 1) + (60 - edad)*12;
 	}
 	return c;
 }
-int Jubilar(char sexo, double mes_actual, double edad, double fondos, double sueldo, double cotizacion, int voluntario) 
+int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, double voluntario) 
 {
-	double meses = contar_meses(mes_actual, edad, sexo);
-	double fondos_f = fondos + (sueldo*cotizacion)*meses;
-	cout << "SUEDLO*COTIZACION : " << sueldo*cotizacion << '\n' << "TOTAL MESES TRABAJADOS : " << (sueldo*cotizacion)*meses << endl;
-	cout << "ESTO VALE FONDOS_F : " << fondos_f << endl;
+	int fondos_f = fondos + (sueldo * ((cotizacion+voluntario)/100)) * contar_meses(mes_actual, edad, sexo);
 	int dividendo = 0;
 	if (sexo == 'H')
 	{
 		dividendo = 15*12;
-		cout << "DIVIENDO : " << 15*12 << endl;
 	}
 	else
 	{
 		dividendo = 20*12;
-		cout << "DIVIENDO : " << 20*12 << endl;
 	}
-	cout << "SUELDO MES A MES : " << fondos_f/dividendo << endl;
 	return fondos_f/dividendo;
 }
 int voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
 {
 	double inicio = 0;
 	double fin = 100;
-	double medio = 50;
+	double medio = 0;
 	bool buscar = true;
-	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
-	if (aux > monto) 
+	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio); // 292222
+	cout << aux << endl;
+	if (aux > monto) // 292222 > 620000
 	{
 		cout << "No es necesario agregar un APV" << endl;
+		return medio;
 	}
 	while (buscar) // busqueda binaria
 	{
+		if (medio == 100)
+		{
+			cout << "No se puede" << endl;
+			return medio;
+		}
 		if (aux == monto)
 		{
 			return medio;
@@ -63,6 +61,7 @@ int voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, floa
 			if (abs(aux - monto) <= 500)
 			{
 				cout << "Se encontro, es: " << medio << endl;
+				return medio;
 			}
 		}
 		else
@@ -73,13 +72,35 @@ int voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, floa
 			if (abs(aux - monto) <= 500)
 			{
 				cout << "Se encontro, es: " << medio << endl;
+				return medio;
 			}
 		}
 	}
 	return medio;
 }
+double voluntario2(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
+{
+	double medio = 0;
+	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
+	cout << aux << endl;
+	while (monto-aux >= 0)
+	{
+		if (medio > 100)
+		{
+			cout << "No se puede" << endl;
+			return 0;
+		}
+		medio = medio + 0.00001;
+		aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
+	}
+	
+	return medio;
+}
 int main () 
 {
-	cout << Jubilar('H', 3, 22, 1000000, 200000, 0.1, 0) << endl;
+	cout << Jubilar('H', 3, 22, 0, 1000000, 10, 3.68825) << endl;
+	cout << "-----------------------------------------------------" << endl;
+	cout << voluntario2('H', 3, 22, 0, 1000000, 10, 700000) << endl;
+	cout << "Adios" << endl;
 	return 0;
 }
