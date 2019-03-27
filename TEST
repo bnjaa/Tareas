@@ -1,13 +1,49 @@
 #include <iostream>
-#include <stdlib.h>
+#include <glui.h>
+#include <string.h>
+#include <sstream>
+#include <string.h>
+
+#define BOTON_ACEPTAR 1
+#define BOTON_SALIR 2
+#define BOTON_ACEPTAR2 3
 using namespace std;
 
-int contar_meses(int fecha_i, int edad, char sexo) 
+GLUI *ventana;
+int ventanaId;
+
+GLUI_EditText *txtDato1;
+GLUI_EditText *txtDato2;
+GLUI_EditText *txtDato3;
+GLUI_EditText *txtDato4;
+GLUI_EditText *txtDato5;
+GLUI_EditText *txtDato6;
+GLUI_EditText *txtDato7;
+GLUI_EditText *txtDato8;
+GLUI_StaticText *txt1;
+
+GLUI_Panel * panel1;
+GLUI_Panel * panel2;
+GLUI_Panel * panel3;
+
+GLUI_RadioGroup *grMenu;
+GLUI_RadioButton *Hombre;
+GLUI_RadioButton *Mujer;
+
+string a[] = {"Hombre","Mujer"};
+int opcion;
+
+
+GLUI_Button *Aceptar;
+GLUI_Button *Aceptar2;
+GLUI_Button *Salir;
+
+int contar_meses(int fecha_i, int edad, char sexo)
 {
 	int c = 0;
 	if (sexo == 'H')
 	{
-		c = (12 - fecha_i + 1) + (65 - edad)*12;	
+		c = (12 - fecha_i + 1) + (65 - edad)*12;
 	}
 	else
 	{
@@ -15,7 +51,7 @@ int contar_meses(int fecha_i, int edad, char sexo)
 	}
 	return c;
 }
-int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, double voluntario) 
+int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, double voluntario)
 {
 	int fondos_f = fondos + (sueldo * ((cotizacion+voluntario)/100)) * contar_meses(mes_actual, edad, sexo);
 	int dividendo = 0;
@@ -43,14 +79,111 @@ double voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, f
 		medio = medio + 0.00001;
 		aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
 	}
-	cout << "Usted debe agregar como APV: " << medio << "%." << endl;
 	return medio;
 }
-int main () 
+void detectar(int id)
 {
-	cout << Jubilar('H', 3, 22, 0, 1000000, 10, 0) << endl;
-	cout << "-----------------------------------------------------" << endl;
-	voluntario('H', 3, 22, 0, 1000000, 10, 700000);
-	cout << "Adios" << endl;
-	return 0;
+    double n1,n2,n3,n5,n6, r;
+    char sexo;
+    switch(opcion)
+    {
+        case 0: sexo = 'H';
+                break;
+        case 1: sexo = 'M';
+                break;
+    }
+    char cadena[50];
+    n1 = atof(txtDato1->get_text());
+    n2 = atof(txtDato2->get_text());
+    n3 = atof(txtDato4->get_text());
+    n5 = atof(txtDato7->get_text());
+    n6 = atof(txtDato8->get_text());
+    r = Jubilar(sexo,n5,n1,n3,n2,10,n6);
+    itoa(r,cadena,10);
+    txtDato3->set_text(cadena);
+
+}
+void detectar2(int id)
+{
+    double n1,n2,n3,n4,n5, r;
+    char sexo;
+    switch(opcion)
+    {
+        case 0: sexo = 'H';
+                break;
+        case 1: sexo = 'M';
+                break;
+    }
+    char cadena[50];
+    n1 = atof(txtDato1->get_text());
+    n2 = atof(txtDato2->get_text());
+    n3 = atof(txtDato4->get_text());
+    n4 = atof(txtDato5->get_text());
+    n5 = atof(txtDato7->get_text());
+    r = voluntario(sexo,n5,n1,n3,n2,10,n4);
+    stringstream ss;
+    ss << r << endl;
+    string porcentaje = ss.str();
+    txtDato6->set_text(porcentaje);
+
+}
+
+int main(int argc, char ** argv)
+{
+   glutInit(&argc,argv);
+
+   GLUI* ventana = GLUI_Master.create_glui("Retirement Simulator");
+   ventanaId = ventana->get_glut_window_id();
+
+   panel1 = new GLUI_Panel(ventana,"");
+
+   txtDato1 = new GLUI_EditText(panel1, "Edad");
+   txtDato1->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato1->set_w(100);
+   txtDato2 = new GLUI_EditText(panel1, "Sueldo");
+   txtDato2->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato2->set_w(100);
+   txtDato4 = new GLUI_EditText(panel1, "Fondos Ahorrados");
+   txtDato4->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato4->set_w(100);
+   txtDato7 = new GLUI_EditText(panel1, "Mes");
+   txtDato7->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato7->set_w(100);
+   txtDato8 = new GLUI_EditText(panel1, " % Voluntario");
+   txtDato8->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato8->set_w(100);
+   txtDato5 = new GLUI_EditText(panel1, "Deseado");
+   txtDato5->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato5->set_w(100);
+   ventana->add_column_to_panel(panel1,false);
+
+   txt1 = new GLUI_StaticText(panel1, "Sexo: ");
+   txt1->set_font(GLUT_BITMAP_HELVETICA_12);
+   grMenu = new GLUI_RadioGroup(panel1,&opcion);
+   Hombre = new GLUI_RadioButton(grMenu,a[0].c_str());
+   Mujer = new GLUI_RadioButton(grMenu,a[1].c_str());
+
+
+   txtDato3 = new GLUI_EditText(panel1, "Jubilacion");
+   txtDato3->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato3->set_w(150);
+   txtDato3->disable();
+   txtDato6 = new GLUI_EditText(panel1, "Porcentaje");
+   txtDato6->set_alignment(GLUI_ALIGN_RIGHT);
+   txtDato6->set_w(150);
+   txtDato6->disable();
+
+
+   panel2 = new GLUI_Panel(ventana,"");
+
+   Aceptar = new GLUI_Button(panel2,"Calcular Sueldo",BOTON_ACEPTAR,detectar);
+   ventana->add_column_to_panel(panel2,false);
+   Aceptar2 = new GLUI_Button(panel2,"Calcular Porcentaje",BOTON_ACEPTAR2,detectar2);
+   ventana->add_column_to_panel(panel2,false);
+   Salir = new GLUI_Button(panel2,"Salir",BOTON_SALIR,(GLUI_Update_CB)exit);
+
+   ventana->set_main_gfx_window(ventanaId);
+
+   glutMainLoop();
+    return 0;
 }
