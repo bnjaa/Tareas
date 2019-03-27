@@ -1,0 +1,52 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+int contar_meses(int fecha_i, int edad, char sexo) 
+{
+	int c = 0;
+	if (sexo == 'H')
+	{
+		c = (12 - fecha_i + 1) + (65 - edad)*12;	
+	}
+	else
+	{
+		c = (12 - fecha_i + 1) + (60 - edad)*12;
+	}
+	return c;
+}
+int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, double voluntario) 
+{
+	int fondos_f = fondos + (sueldo * ((cotizacion+voluntario)/100)) * contar_meses(mes_actual, edad, sexo);
+	int dividendo = 0;
+	if (sexo == 'H')
+	{
+		dividendo = 180;
+	}
+	else
+	{
+		dividendo = 240;
+	}
+	return fondos_f/dividendo;
+}
+double voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
+{
+	double medio = 0;
+	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
+	while (monto-aux >= 1)
+	{
+		if (medio > 100)
+		{
+			cout << "No se puede alcanzar el monto solicitado." << endl;
+			return 0;
+		}
+		medio = medio + 0.00001;
+		aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
+	}
+	cout << "Usted debe agregar como APV: " << medio << "%." << endl;
+	return medio;
+}
+int main () 
+{
+	return 0;
+}
