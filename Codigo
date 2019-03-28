@@ -18,22 +18,22 @@ int contar_meses(int fecha_i, int edad, char sexo)
 int Jubilar(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, double voluntario) 
 {
 	int fondos_f = fondos + (sueldo * ((cotizacion+voluntario)/100)) * contar_meses(mes_actual, edad, sexo);
-	int dividendo = 0;
+	int meses = 0;
 	if (sexo == 'H')
 	{
-		dividendo = 180;
+		meses = 180;
 	}
 	else
 	{
-		dividendo = 240;
+		meses = 240;
 	}
-	return fondos_f/dividendo;
+	return fondos_f/meses;
 }
-double voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
+double APV(char sexo, int mes_actual, int edad, int fondos, int sueldo, float cotizacion, int monto)
 {
 	double medio = 0;
 	int aux = Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, medio);
-	while (monto-aux >= 1)
+	while (monto-aux >= 0)
 	{
 		if (medio > 100)
 		{
@@ -48,5 +48,24 @@ double voluntario(char sexo, int mes_actual, int edad, int fondos, int sueldo, f
 }
 int main () 
 {
-	return 0;
+	char sexo; int mes_actual; int edad; int fondos; int sueldo; float cotizacion; double voluntario; int monto;
+	cout << "Ingrese su sexo, H o M: " << endl;
+	cin >> sexo;
+	cout << "Ingrese el mes actual:" << endl;
+	cin >> mes_actual;
+	cout << "Ingrese su edad:" << endl;
+	cin >> edad;
+	cout << "Ingrese sus fondos: " << endl;
+	cin >> fondos;
+	cout << "Ingrese su sueldo: " << endl;
+	cin >> sueldo;
+	cout << "Ingrese la cotizacion de su AFP: " << endl;
+	cin >> cotizacion;
+	cout << "Ingrese su ahorro previsional voluntario: " << endl;
+	cin >> voluntario;
+	cout << "Su sueldo mes a mes sera: " << Jubilar(sexo, mes_actual, edad, fondos, sueldo, cotizacion, voluntario) << endl;
+	cout << "Ingrese un sueldo que desea en su jubilacion: " << endl;
+	cin >> monto;
+	APV(sexo, mes_actual, edad, fondos, sueldo, cotizacion, monto);
+	cout << "Adios" << endl;
 }
