@@ -1,0 +1,33 @@
+<html>
+<head>
+	<title> Total de ventas </title>
+</head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+	<center></br>
+			<a href="/ver_consultas" class="w3-button w3-green"> Volver </a><br/><br/>
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th> ID </th>
+						<th> NOMBRE </th>
+						<th> TOTAL </th>
+					</tr>
+				</thead>
+				<tbody>
+					<% for (var i = 0; i < data.length; i++) { %>
+						<tr>
+							<td> <%= data[i].P_ID %> </td>
+							<td> <%= data[i].NOMBRE %> </td>
+							<td> <%= data[i].total_ventas %> </td>
+						</tr>
+						<% } %>
+				</tbody>
+
+			</table>
+	</center>
+</body>
+</html>

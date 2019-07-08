@@ -1,0 +1,17 @@
+1- Cantidad de participantes en un mes cualquiera.
+2- Cantidad de participantes via internet
+3- Cantidad de participantes via presencial
+4- Cantidad de participantes extranjeros.
+5- Participante que compró mas boletos el ultimo año.
+6- Profesion, ciudad, genero, nacionalidad del participante que compró mas boletos.
+6- Participante que ha gastado mas dinero en boletos.
+7- Profesion, ciudad, genero, nacionalidad del participante que compró mas boletos.
+7- Cantidad de hombres y mujeres.
+8- Mes y año del sorteo donde se tiene la mayor cantidad de participantes.
+9- Mes y año del sorteo donde se tiene la menor cantidad de participantes.
+10- Ciudad con mas participaantes.
+11- Nombre, nacionalidad, genero, ciudad, profesion del participante ganador.
+12- Cantidad de personas mayores y menores de edad que compran boletos.
+13- Nombre, profesion, ciudad, genero, nacionalidad de los participantes mas jovenes.
+14- Nombre, profesion, ciudad, genero, nacionalidad de los participantes mas longevos.
+15- 
